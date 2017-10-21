@@ -36,7 +36,6 @@ struct perftimer
 
 // BEGIN: ignore the warnings listed below when compiled with clang from here
 #pragma clang diagnostic push
-#pragma clang diagnostic ignored "-Wunused-member-function"
 #pragma clang diagnostic ignored "-Wexit-time-destructors"
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 ////////////////////////////////////////////////////////////////////////////////
