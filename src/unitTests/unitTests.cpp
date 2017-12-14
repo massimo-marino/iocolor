@@ -68,7 +68,7 @@ void testEffects(const enum iocolor::color foreGroundColor,
             << iocolor::effects(iocolor::effect::strike)
             << " STRIKE "
             << iocolor::color::reset
-            << std::endl;
+            << '\n';
 }
 
 TEST(ioColor, test_full_1)
@@ -123,7 +123,7 @@ TEST(ioColor, test_full_1)
                                     std::for_each(std::begin(effectVector),
                                                   std::end(effectVector),
                                                   f3);
-                                    std::cout << std::endl;
+                                    std::cout << '\n';
                         };
               std::for_each(std::begin(backGroundVector), std::end(backGroundVector), f2);
             };
@@ -134,7 +134,7 @@ TEST(ioColor, test_full_1)
 
   auto for_eachTime = perftimer<>::duration(for_eachFun).count();
 
-  std::cout << std::endl << std::endl;
+  std::cout << '\n\n';
   
   // for_eachFun does the same of the following forLoopFun, but faster
   auto forLoopFun = [&foreGroundVector, &backGroundVector, &effectVector]()
@@ -153,15 +153,15 @@ TEST(ioColor, test_full_1)
                     << s
                     << iocolor::color::reset;
         }
-        std::cout << std::endl;
+        std::cout << '\n';
       }
     }
   };
 
   auto forLoopTime = perftimer<>::duration(forLoopFun).count();
 
-  std::cout << "for_each took: " << for_eachTime << " nsec" << std::endl;
-  std::cout << "for loop took: " << forLoopTime << " nsec" << std::endl;
+  std::cout << "for_each took: " << for_eachTime << " nsec" << '\n';
+  std::cout << "for loop took: " << forLoopTime << " nsec" << '\n';
   // check that for_each is faster than the manual for loops
   EXPECT_LT(for_eachTime, forLoopTime);
 }
@@ -210,7 +210,7 @@ TEST(ioColor, test_full_2)
 
   auto for_eachTime = perftimer<>::duration(for_eachFun).count();
 
-  std::cout << std::endl << std::endl;
+  std::cout << '\n\n';
 
   // for_eachFun does the same of the following forLoopFun
   auto forLoopFun = [&foreGroundColorVector, &backGroundColorVector]()
@@ -227,8 +227,8 @@ TEST(ioColor, test_full_2)
   auto forLoopTime = perftimer<>::duration(forLoopFun).count();
 
   // on my pc forLoopTime is much better than for_eachTime
-  std::cout << "for_each took: " << for_eachTime << " nsec" << std::endl;
-  std::cout << "for loop took: " << forLoopTime << " nsec" << std::endl;
+  std::cout << "for_each took: " << for_eachTime << " nsec" << '\n';
+  std::cout << "for loop took: " << forLoopTime << " nsec" << '\n';
   EXPECT_GT(for_eachTime, forLoopTime);
 }
 
@@ -260,7 +260,7 @@ TEST(ioColor, test_full_3)
             << iocolor::background(iocolor::color::white)
             << "          "
             << iocolor::color::reset
-            << std::endl;
+            << '\n';
 }
 
 static
@@ -278,7 +278,7 @@ TEST(ioColor, testMakeColor_1)
               << color
               << s
               << iocolor::color::reset
-              << std::endl;
+              << '\n';
   }
 }
 
@@ -294,7 +294,7 @@ TEST(ioColor, testMakeColor_2)
               << foreGroundColor
               << s
               << iocolor::color::reset
-              << std::endl;
+              << '\n';
   }
 }
 
@@ -310,7 +310,7 @@ TEST(ioColor, testMakeColor_3)
               << backGroundColor
               << s
               << iocolor::color::reset
-              << std::endl;
+              << '\n';
   }
 }
 
@@ -334,7 +334,7 @@ TEST(ioColor, testMakeColor_3)
 //                << backGroundColor
 //                << s
 //                << iocolor::color::reset
-//                << std::endl;
+//                << '\n';
 //    }
 //  }
 //}
