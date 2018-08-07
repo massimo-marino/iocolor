@@ -10,10 +10,8 @@ The default compiler used is `clang++-5.0`.
 
 The cmake files compile with `-std=c++17`.
 
-The unit tests are implemented in `googletest`: be sure you have installed `googletest` to compile.
 
-
-## Install and Run Unit Tests
+## Install and Run the Example
 
 ```bash
 $ git clone https://github.com:massimo-marino/iocolor.git
@@ -22,11 +20,11 @@ $ mkdir build
 $ cd build
 $ cmake ..
 $ make
-$ cd src/unitTests
-$ ./unitTests
+$ cd src/example
+$ ./iocolor-example
 ```
 
 
 ## How to Use it
 
-See the source code and the unit tests for examples of use.
+See the source code and the example for examples of use.

@@ -1,18 +1,16 @@
 /* 
- * File:   unitTests.cpp
+ * File:   example.cpp
  * Author: massimo
  *
  * Created on October 04, 2017, 10:43 AM
  */
-
 #include "../iocolor.h"
-#include <chrono>
-#include <gtest/gtest.h>
-#include <gmock/gmock.h>
 
+#include <chrono>
+#include <vector>
+#include <algorithm>
 #include <experimental/string_view>
 
-using namespace ::testing;
 using namespace std::experimental;
 using namespace std::string_literals;
 ////////////////////////////////////////////////////////////////////////////////
@@ -40,8 +38,9 @@ struct perftimer
 #pragma clang diagnostic ignored "-Wglobal-constructors"
 ////////////////////////////////////////////////////////////////////////////////
 static inline
-void testEffects(const enum iocolor::color foreGroundColor,
-                 const enum iocolor::color backGroundColor) noexcept
+void
+testEffects(const enum iocolor::color foreGroundColor,
+            const enum iocolor::color backGroundColor) noexcept
 {
   std::cout << iocolor::color::reset
             << iocolor::foreground(foreGroundColor)
@@ -68,10 +67,12 @@ void testEffects(const enum iocolor::color foreGroundColor,
             << iocolor::effects(iocolor::effect::strike)
             << " STRIKE "
             << iocolor::color::reset
-            << '\n';
+            << "\n";
 }
 
-TEST(ioColor, test_full_1)
+static
+void
+test_full_1 ()
 {
   const std::vector<iocolor::color> foreGroundVector
   {
@@ -123,7 +124,7 @@ TEST(ioColor, test_full_1)
                                     std::for_each(std::begin(effectVector),
                                                   std::end(effectVector),
                                                   f3);
-                                    std::cout << '\n';
+                                    std::cout << "\n";
                         };
               std::for_each(std::begin(backGroundVector), std::end(backGroundVector), f2);
             };
@@ -134,7 +135,7 @@ TEST(ioColor, test_full_1)
 
   auto for_eachTime = perftimer<>::duration(for_eachFun).count();
 
-  std::cout << '\n\n';
+  std::cout << "\n\n";
   
   // for_eachFun does the same of the following forLoopFun, but faster
   auto forLoopFun = [&foreGroundVector, &backGroundVector, &effectVector]()
@@ -153,20 +154,20 @@ TEST(ioColor, test_full_1)
                     << s
                     << iocolor::color::reset;
         }
-        std::cout << '\n';
+        std::cout << "\n";
       }
     }
   };
 
   auto forLoopTime = perftimer<>::duration(forLoopFun).count();
 
-  std::cout << "for_each took: " << for_eachTime << " nsec" << '\n';
-  std::cout << "for loop took: " << forLoopTime << " nsec" << '\n';
-  // check that for_each is faster than the manual for loops
-  EXPECT_LT(for_eachTime, forLoopTime);
+  std::cout << "for_each took: " << for_eachTime << " nsec" << "\n";
+  std::cout << "for loop took: " << forLoopTime << " nsec" << "\n";
 }
 
-TEST(ioColor, test_full_2)
+static
+void
+test_full_2()
 {
   const std::vector<iocolor::color> foreGroundColorVector
   {
@@ -210,10 +211,10 @@ TEST(ioColor, test_full_2)
 
   auto for_eachTime = perftimer<>::duration(for_eachFun).count();
 
-  std::cout << '\n\n';
+  std::cout << "\n\n";
 
   // for_eachFun does the same of the following forLoopFun
-  auto forLoopFun = [&foreGroundColorVector, &backGroundColorVector]()
+  auto forLoopFun = [&foreGroundColorVector, &backGroundColorVector] ()
   {
     for (auto&& foreGroundColor : foreGroundColorVector)
     {
@@ -227,12 +228,13 @@ TEST(ioColor, test_full_2)
   auto forLoopTime = perftimer<>::duration(forLoopFun).count();
 
   // on my pc forLoopTime is much better than for_eachTime
-  std::cout << "for_each took: " << for_eachTime << " nsec" << '\n';
-  std::cout << "for loop took: " << forLoopTime << " nsec" << '\n';
-  EXPECT_GT(for_eachTime, forLoopTime);
+  std::cout << "for_each took: " << for_eachTime << " nsec" << "\n";
+  std::cout << "for loop took: " << forLoopTime << " nsec" << "\n";
 }
 
-TEST(ioColor, test_full_3)
+static
+void
+test_full_3()
 {
   std::cout << iocolor::color::reset
             << iocolor::foreground(iocolor::color::black)
@@ -260,13 +262,14 @@ TEST(ioColor, test_full_3)
             << iocolor::background(iocolor::color::white)
             << "          "
             << iocolor::color::reset
-            << '\n';
+            << "\n";
 }
 
-static
-const std::string s = " ABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789-_\\|!\"£$%&/()=?^{}[]@#,.;: "s;
+static const std::string s = " ABCDEFGHIJKLMNOPQRSTUVWXYZ-0123456789-_\\|!\"£$%&/()=?^{}[]@#,.;: "s;
 
-TEST(ioColor, testMakeColor_1)
+static
+void
+testMakeColor_1()
 {
   short color {};
 
@@ -278,11 +281,13 @@ TEST(ioColor, testMakeColor_1)
               << color
               << s
               << iocolor::color::reset
-              << '\n';
+              << "\n";
   }
 }
 
-TEST(ioColor, testMakeColor_2)
+static
+void
+testMakeColor_2()
 {
   short foreGroundColor {};
 
@@ -294,11 +299,13 @@ TEST(ioColor, testMakeColor_2)
               << foreGroundColor
               << s
               << iocolor::color::reset
-              << '\n';
+              << "\n";
   }
 }
 
-TEST(ioColor, testMakeColor_3)
+static
+void
+testMakeColor_3()
 {
   short backGroundColor {};
 
@@ -310,34 +317,49 @@ TEST(ioColor, testMakeColor_3)
               << backGroundColor
               << s
               << iocolor::color::reset
-              << '\n';
+              << "\n";
   }
 }
 
-// very long output: commented out
-// uncomment if wishing to run it
-//TEST(ioColor, testMakeColor_4)
-//{
-//  short foreGroundColor {};
-//  short backGroundColor {};
-//
-//  for (foreGroundColor = 0; foreGroundColor <= 255; ++foreGroundColor)
-//  {
-//    for (backGroundColor = 0; backGroundColor <= 255; ++backGroundColor)
-//    {
-//      std::cout << iocolor::color::reset
-//                << iocolor::foreground(foreGroundColor)
-//                << iocolor::background(backGroundColor)
-//                << "fg "
-//                << foreGroundColor
-//                << " bg "
-//                << backGroundColor
-//                << s
-//                << iocolor::color::reset
-//                << '\n';
-//    }
-//  }
-//}
+// very long output
+static
+void
+testMakeColor_4()
+{
+  short foreGroundColor {};
+  short backGroundColor {};
+
+  for (foreGroundColor = 0; foreGroundColor <= 255; ++foreGroundColor)
+  {
+    for (backGroundColor = 0; backGroundColor <= 255; ++backGroundColor)
+    {
+      std::cout << iocolor::color::reset
+                << iocolor::foreground(foreGroundColor)
+                << iocolor::background(backGroundColor)
+                << "fg "
+                << foreGroundColor
+                << " bg "
+                << backGroundColor
+                << s
+                << iocolor::color::reset
+                << "\n";
+    }
+  }
+}
 ////////////////////////////////////////////////////////////////////////////////
+
+int main()
+{
+  test_full_1();
+  test_full_2();
+  test_full_3();
+  testMakeColor_1();
+  testMakeColor_2();
+  testMakeColor_3();
+  testMakeColor_4();
+
+  return 0;
+}
+
 #pragma clang diagnostic pop
 // END: ignore the warnings when compiled with clang up to here

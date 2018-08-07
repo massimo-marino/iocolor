@@ -4,8 +4,7 @@
  *
  * Created on October 17, 2017, 1:50 PM
  */
-#ifndef IOCOLOR_H
-#define IOCOLOR_H
+#pragma once
 
 #include <iostream>
 #include <unistd.h>
@@ -49,14 +48,15 @@ enum class effect : effect_t
   strike    = 32, // "\033[9m"
 };
 
-static inline
+static
 bool
 is_tty (const int fd) noexcept
 {
-  return isatty(fd);
+  return static_cast<bool>(isatty(fd));
 }
 
-static inline
+[[maybe_unused]]
+static
 bool
 is_tty (const std::ostream& s) noexcept
 {
@@ -72,69 +72,91 @@ is_tty (const std::ostream& s) noexcept
   return false;
 }
 
-inline constexpr
+effect
+operator| (enum effect a, enum effect b) noexcept;
+
 effect
 operator| (const enum effect a, const enum effect b) noexcept
 {
   return static_cast<effect>(static_cast<effect_t>(a) | static_cast<effect_t>(b));
 }
 
-inline constexpr
+color_definition
+make_color (enum color fg,
+            enum color bg = color::none,
+            enum effect ef = effect::none) noexcept;
+
 color_definition
 make_color (const enum color fg,
-            const enum color bg = color::none,
-            const enum effect ef = effect::none) noexcept
+            const enum color bg,
+            const enum effect ef) noexcept
 {
   return { static_cast<short>(fg),
            static_cast<short>(bg),
            static_cast<effect_t>(ef) };
 }
 
-inline constexpr
+color_definition
+make_color (short fg,
+            short bg = -1,
+            effect_t ef = 0) noexcept;
+
 color_definition
 make_color (const short fg,
-            const short bg = -1,
-            const effect_t ef = 0) noexcept
+            const short bg,
+            const effect_t ef) noexcept
 {
   return { fg, bg, ef };
 }
 
-inline constexpr
+color_definition
+foreground (enum color fg) noexcept;
+
 color_definition
 foreground (const enum color fg) noexcept
 {
   return make_color(fg);
 }
 
-inline constexpr
+color_definition
+foreground (short fg) noexcept;
+
 color_definition
 foreground (const short fg) noexcept
 {
   return make_color(fg);
 }
 
-inline constexpr
+color_definition
+background (enum color bg) noexcept;
+
 color_definition
 background (const enum color bg) noexcept
 {
   return make_color(color::none, bg);
 }
 
-inline constexpr
+color_definition
+background (short bg) noexcept;
+
 color_definition
 background (const short bg) noexcept
 {
   return make_color(-1, bg);
 }
 
-inline constexpr
+color_definition
+effects (enum effect ef) noexcept;
+
 color_definition
 effects (const enum effect ef) noexcept
 {
   return make_color(color::none, color::none, ef);
 }
 
-inline constexpr
+color_definition
+effects (effect_t ef) noexcept;
+
 color_definition
 effects (const effect_t ef) noexcept
 {
@@ -143,12 +165,10 @@ effects (const effect_t ef) noexcept
 }  // namespace iocolor
 ////////////////////////////////////////////////////////////////////////////////
 std::ostream&
-operator << (std::ostream& os, const iocolor::color_definition& descriptor) noexcept;
+operator<< (std::ostream& os, const iocolor::color_definition& descriptor) noexcept;
 
 std::ostream&
-operator << (std::ostream& os, const enum iocolor::color c) noexcept;
+operator<< (std::ostream& os, enum iocolor::color c) noexcept;
 
 std::ostream&
-operator << (std::ostream& os, const enum iocolor::effect ef) noexcept;
-
-#endif  // IOCOLOR_H
+operator<< (std::ostream& os, enum iocolor::effect ef) noexcept;

@@ -4,11 +4,10 @@
  *
  * Created on October 18, 2017, 4:29 PM
  */
-
 #include "iocolor.h"
 ////////////////////////////////////////////////////////////////////////////////
 std::ostream&
-operator << (std::ostream& os, const iocolor::color_definition& descriptor) noexcept
+operator<< (std::ostream& os, const iocolor::color_definition& descriptor) noexcept
 {
   if ( !iocolor::is_tty(os) )
   {
@@ -37,12 +36,12 @@ operator << (std::ostream& os, const iocolor::color_definition& descriptor) noex
       os << "\033[7m";
     }
 
-     if (descriptor.effects & static_cast<iocolor::effect_t>(iocolor::effect::concealed))
+    if (descriptor.effects & static_cast<iocolor::effect_t>(iocolor::effect::concealed))
     {
       os << "\033[8m";
     }
 
-     if (descriptor.effects & static_cast<iocolor::effect_t>(iocolor::effect::strike))
+    if (descriptor.effects & static_cast<iocolor::effect_t>(iocolor::effect::strike))
     {
       os << "\033[9m";
     }
@@ -76,7 +75,7 @@ operator << (std::ostream& os, const iocolor::color_definition& descriptor) noex
 }
 
 std::ostream&
-operator << (std::ostream& os, const enum iocolor::color c) noexcept
+operator<< (std::ostream& os, const enum iocolor::color c) noexcept
 {
   if (c == iocolor::color::reset)
   {
@@ -87,7 +86,7 @@ operator << (std::ostream& os, const enum iocolor::color c) noexcept
 }
 
 std::ostream&
-operator << (std::ostream& os, const enum iocolor::effect ef) noexcept
+operator<< (std::ostream& os, const enum iocolor::effect ef) noexcept
 {
   if (ef == iocolor::effect::none)
   {
