@@ -23,9 +23,11 @@ struct perftimer
   static inline Time duration(F&& f, Args&&... args)
   {
     auto start = Clock::now();
-    // C++17: not yet available
-    //std::invoke(std::forward<F>(f), std::forward<Args>(args)...);
-    f(std::forward<Args>(args)...);
+
+    std::invoke(std::forward<F>(f), std::forward<Args>(args)...);
+    // pre-C++17
+    //f(std::forward<Args>(args)...);
+
     auto end = Clock::now();
 
     return std::chrono::duration_cast<Time>(end - start);
